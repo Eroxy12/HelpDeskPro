@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/lib/mongodb';
 import Comment from '@/models/Comment';
+import User from '@/models/User';
 
 /**
  * GET /api/comments/[ticketId]

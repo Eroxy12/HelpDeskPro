@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/lib/mongodb';
 import Ticket from '@/models/Ticket';
+import User from '@/models/User';
 import { sendTicketClosedEmail } from '@/lib/emailService';
 
 /**
