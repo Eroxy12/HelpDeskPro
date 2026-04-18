@@ -28,7 +28,7 @@ Este proyecto fue desarrollado con el objetivo de fortalecer habilidades en desa
 - **Frontend:** React / Next.js
 - **Lenguaje:** JavaScript / TypeScript
 - **Estilos:** CSS / Tailwind
-- **Backend:** [API Routes / Node.js / etc]
+- **Backend:** [API Routes / Node.js
 - **Base de datos:** [MongoDB]
 
 ---
