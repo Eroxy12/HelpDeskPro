@@ -14,6 +14,7 @@ export async function GET(
 ) {
     try {
         await connectDB();
+        void User;
 
         const { id } = await params;
 
@@ -49,6 +50,7 @@ export async function PATCH(
 ) {
     try {
         await connectDB();
+        void User;
 
         const { id } = await params;
         const { status, priority, assignedTo } = await request.json();
@@ -104,6 +106,7 @@ export async function DELETE(
 ) {
     try {
         await connectDB();
+        void User;
 
         const { id } = await params;
 

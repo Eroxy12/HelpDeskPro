@@ -11,6 +11,7 @@ import { sendTicketCreatedEmail } from '@/lib/emailService';
 export async function GET(request: NextRequest) {
     try {
         await connectDB();
+        void User;
 
         const { searchParams } = new URL(request.url);
         const email = searchParams.get('email');
@@ -48,6 +49,7 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
     try {
         await connectDB();
+        void User;
 
         const { title, description, cc, name, email, priority } = await request.json();
 

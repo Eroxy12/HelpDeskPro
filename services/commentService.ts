@@ -1,6 +1,20 @@
 import axios from 'axios';
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, '') || '';
+function getApiBaseUrl() {
+    const configuredUrl = process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, '') || '';
+
+    // In deployed browsers, ignore localhost-style public API URLs and use same-origin requests.
+    if (
+        typeof window !== 'undefined' &&
+        configuredUrl &&
+        /localhost|127\.0\.0\.1/i.test(configuredUrl) &&
+        !/localhost|127\.0\.0\.1/i.test(window.location.hostname)
+    ) {
+        return '';
+    }
+
+    return configuredUrl;
+}
 
 export interface Comment {
     _id: string;
@@ -25,7 +39,8 @@ export interface CreateCommentData {
  */
 export async function getComments(ticketId: string): Promise<Comment[]> {
     try {
-        const response = await axios.get(`${API_BASE_URL}/api/comments/${ticketId}`);
+        const apiBaseUrl = getApiBaseUrl();
+        const response = await axios.get(`${apiBaseUrl}/api/comments/${ticketId}`);
         return response.data.comments;
     } catch (error: any) {
         throw new Error(error.response?.data?.error || 'Error al obtener comentarios');
@@ -37,7 +52,8 @@ export async function getComments(ticketId: string): Promise<Comment[]> {
  */
 export async function createComment(data: CreateCommentData): Promise<Comment> {
     try {
-        const response = await axios.post(`${API_BASE_URL}/api/comments`, data);
+        const apiBaseUrl = getApiBaseUrl();
+        const response = await axios.post(`${apiBaseUrl}/api/comments`, data);
         return response.data.comment;
     } catch (error: any) {
         throw new Error(error.response?.data?.error || 'Error al crear el comentario');

@@ -1,6 +1,20 @@
 import axios from 'axios';
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, '') || '';
+function getApiBaseUrl() {
+    const configuredUrl = process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, '') || '';
+
+    // In deployed browsers, ignore localhost-style public API URLs and use same-origin requests.
+    if (
+        typeof window !== 'undefined' &&
+        configuredUrl &&
+        /localhost|127\.0\.0\.1/i.test(configuredUrl) &&
+        !/localhost|127\.0\.0\.1/i.test(window.location.hostname)
+    ) {
+        return '';
+    }
+
+    return configuredUrl;
+}
 
 export interface Ticket {
     _id: string;
@@ -46,7 +60,8 @@ export async function getTickets(filters?: {
         if (filters?.priority) params.append('priority', filters.priority);
 
         const query = params.toString();
-        const response = await axios.get(`${API_BASE_URL}/api/tickets${query ? `?${query}` : ''}`);
+        const apiBaseUrl = getApiBaseUrl();
+        const response = await axios.get(`${apiBaseUrl}/api/tickets${query ? `?${query}` : ''}`);
         return response.data.tickets;
     } catch (error: any) {
         throw new Error(error.response?.data?.error || 'Error al obtener tickets');
@@ -58,7 +73,8 @@ export async function getTickets(filters?: {
  */
 export async function getTicketById(id: string): Promise<Ticket> {
     try {
-        const response = await axios.get(`${API_BASE_URL}/api/tickets/${id}`);
+        const apiBaseUrl = getApiBaseUrl();
+        const response = await axios.get(`${apiBaseUrl}/api/tickets/${id}`);
         return response.data.ticket;
     } catch (error: any) {
         throw new Error(error.response?.data?.error || 'Error al obtener el ticket');
@@ -70,7 +86,8 @@ export async function getTicketById(id: string): Promise<Ticket> {
  */
 export async function createTicket(data: CreateTicketData): Promise<Ticket> {
     try {
-        const response = await axios.post(`${API_BASE_URL}/api/tickets`, data);
+        const apiBaseUrl = getApiBaseUrl();
+        const response = await axios.post(`${apiBaseUrl}/api/tickets`, data);
         return response.data.ticket;
     } catch (error: any) {
         throw new Error(error.response?.data?.error || 'Error al crear el ticket');
@@ -82,7 +99,8 @@ export async function createTicket(data: CreateTicketData): Promise<Ticket> {
  */
 export async function updateTicket(id: string, data: UpdateTicketData): Promise<Ticket> {
     try {
-        const response = await axios.patch(`${API_BASE_URL}/api/tickets/${id}`, data);
+        const apiBaseUrl = getApiBaseUrl();
+        const response = await axios.patch(`${apiBaseUrl}/api/tickets/${id}`, data);
         return response.data.ticket;
     } catch (error: any) {
         throw new Error(error.response?.data?.error || 'Error al actualizar el ticket');
@@ -94,7 +112,8 @@ export async function updateTicket(id: string, data: UpdateTicketData): Promise<
  */
 export async function deleteTicket(id: string): Promise<void> {
     try {
-        await axios.delete(`${API_BASE_URL}/api/tickets/${id}`);
+        const apiBaseUrl = getApiBaseUrl();
+        await axios.delete(`${apiBaseUrl}/api/tickets/${id}`);
     } catch (error: any) {
         throw new Error(error.response?.data?.error || 'Error al eliminar el ticket');
     }

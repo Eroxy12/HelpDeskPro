@@ -13,6 +13,7 @@ export async function GET(
 ) {
     try {
         await connectDB();
+        void User;
 
         const { ticketId } = await params;
 
