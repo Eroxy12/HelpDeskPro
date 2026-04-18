@@ -33,14 +33,6 @@ Este proyecto fue desarrollado con el objetivo de fortalecer habilidades en desa
 
 ---
 
-## Capturas de pantalla
-
-
-![Home](./screenshots/home.png)
-![Tickets](./screenshots/tickets.png)
-
----
-
 ## Instalación y ejecución
 
 Sigue estos pasos para ejecutar el proyecto en tu entorno local:
