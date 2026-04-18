@@ -18,8 +18,8 @@ Este proyecto fue desarrollado con el objetivo de fortalecer habilidades en desa
 -  Visualización de tickets
 -  Actualización de estado (abierto, en proceso, cerrado)
 -  Eliminación de tickets
--  Gestión de usuarios *(si aplica)*
--  Filtrado o búsqueda *(si aplica)*
+-  Gestión de usuarios 
+-  Filtrado o búsqueda 
 
 ---
 
@@ -27,9 +27,9 @@ Este proyecto fue desarrollado con el objetivo de fortalecer habilidades en desa
 
 - **Frontend:** React / Next.js
 - **Lenguaje:** JavaScript / TypeScript
-- **Estilos:** CSS / Tailwind *(si usaste)*
+- **Estilos:** CSS / Tailwind
 - **Backend:** [API Routes / Node.js / etc]
-- **Base de datos:** [MongoDB / MySQL / PostgreSQL / etc]
+- **Base de datos:** [MongoDB]
 
 ---
 
