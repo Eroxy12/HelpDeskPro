@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, '') || '';
 
 export interface Comment {
     _id: string;
@@ -25,7 +25,7 @@ export interface CreateCommentData {
  */
 export async function getComments(ticketId: string): Promise<Comment[]> {
     try {
-        const response = await axios.get(`${API_URL}/api/comments/${ticketId}`);
+        const response = await axios.get(`${API_BASE_URL}/api/comments/${ticketId}`);
         return response.data.comments;
     } catch (error: any) {
         throw new Error(error.response?.data?.error || 'Error al obtener comentarios');
@@ -37,7 +37,7 @@ export async function getComments(ticketId: string): Promise<Comment[]> {
  */
 export async function createComment(data: CreateCommentData): Promise<Comment> {
     try {
-        const response = await axios.post(`${API_URL}/api/comments`, data);
+        const response = await axios.post(`${API_BASE_URL}/api/comments`, data);
         return response.data.comment;
     } catch (error: any) {
         throw new Error(error.response?.data?.error || 'Error al crear el comentario');

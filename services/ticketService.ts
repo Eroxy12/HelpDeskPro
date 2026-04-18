@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, '') || '';
 
 export interface Ticket {
     _id: string;
@@ -45,7 +45,8 @@ export async function getTickets(filters?: {
         if (filters?.status) params.append('status', filters.status);
         if (filters?.priority) params.append('priority', filters.priority);
 
-        const response = await axios.get(`${API_URL}/api/tickets?${params.toString()}`);
+        const query = params.toString();
+        const response = await axios.get(`${API_BASE_URL}/api/tickets${query ? `?${query}` : ''}`);
         return response.data.tickets;
     } catch (error: any) {
         throw new Error(error.response?.data?.error || 'Error al obtener tickets');
@@ -57,7 +58,7 @@ export async function getTickets(filters?: {
  */
 export async function getTicketById(id: string): Promise<Ticket> {
     try {
-        const response = await axios.get(`${API_URL}/api/tickets/${id}`);
+        const response = await axios.get(`${API_BASE_URL}/api/tickets/${id}`);
         return response.data.ticket;
     } catch (error: any) {
         throw new Error(error.response?.data?.error || 'Error al obtener el ticket');
@@ -69,7 +70,7 @@ export async function getTicketById(id: string): Promise<Ticket> {
  */
 export async function createTicket(data: CreateTicketData): Promise<Ticket> {
     try {
-        const response = await axios.post(`${API_URL}/api/tickets`, data);
+        const response = await axios.post(`${API_BASE_URL}/api/tickets`, data);
         return response.data.ticket;
     } catch (error: any) {
         throw new Error(error.response?.data?.error || 'Error al crear el ticket');
@@ -81,7 +82,7 @@ export async function createTicket(data: CreateTicketData): Promise<Ticket> {
  */
 export async function updateTicket(id: string, data: UpdateTicketData): Promise<Ticket> {
     try {
-        const response = await axios.patch(`${API_URL}/api/tickets/${id}`, data);
+        const response = await axios.patch(`${API_BASE_URL}/api/tickets/${id}`, data);
         return response.data.ticket;
     } catch (error: any) {
         throw new Error(error.response?.data?.error || 'Error al actualizar el ticket');
@@ -93,7 +94,7 @@ export async function updateTicket(id: string, data: UpdateTicketData): Promise<
  */
 export async function deleteTicket(id: string): Promise<void> {
     try {
-        await axios.delete(`${API_URL}/api/tickets/${id}`);
+        await axios.delete(`${API_BASE_URL}/api/tickets/${id}`);
     } catch (error: any) {
         throw new Error(error.response?.data?.error || 'Error al eliminar el ticket');
     }

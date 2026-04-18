@@ -10,7 +10,7 @@ import Badge from '@/components/ui/Badge';
 import { Inbox, ListChecks, Circle, AlertCircle, CheckCircle, XCircle, Flame, Zap } from 'lucide-react';
 
 export default function AgentDashboard() {
-    const { user, isAuthenticated, logout } = useAuth();
+    const { user, isAuthenticated, isLoading, logout } = useAuth();
     const router = useRouter();
     const [tickets, setTickets] = useState<Ticket[]>([]);
     const [loading, setLoading] = useState(true);
@@ -21,13 +21,17 @@ export default function AgentDashboard() {
     const [priorityFilter, setPriorityFilter] = useState('');
 
     useEffect(() => {
+        if (isLoading) {
+            return;
+        }
+
         if (!isAuthenticated || user?.role !== 'agent') {
             router.push('/login');
             return;
         }
 
         loadTickets();
-    }, [isAuthenticated, user, router, statusFilter, priorityFilter]);
+    }, [isAuthenticated, isLoading, user, router, statusFilter, priorityFilter]);
 
     const loadTickets = async () => {
         try {
@@ -54,7 +58,7 @@ export default function AgentDashboard() {
         return tickets.filter(t => t.status === status).length;
     };
 
-    if (loading) {
+    if (isLoading || loading) {
         return (
             <div className="min-h-screen flex items-center justify-center bg-background">
                 <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>

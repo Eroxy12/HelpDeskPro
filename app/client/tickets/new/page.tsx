@@ -1,7 +1,7 @@
 'use client';
 
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
 import { createTicket } from '@/services/ticketService';
@@ -23,6 +23,19 @@ export default function NewTicketPage() {
     });
 
     const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        if (!user) {
+            return;
+        }
+
+        setFormData((current) => ({
+            ...current,
+            cc: current.cc || user.cc || '',
+            name: current.name || user.name || '',
+            email: current.email || user.email || '',
+        }));
+    }, [user]);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();

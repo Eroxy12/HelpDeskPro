@@ -9,20 +9,24 @@ import Card, { CardHeader, CardBody, CardFooter } from '@/components/ui/Card';
 import Badge from '@/components/ui/Badge';
 
 export default function ClientDashboard() {
-    const { user, isAuthenticated, logout } = useAuth();
+    const { user, isAuthenticated, isLoading, logout } = useAuth();
     const router = useRouter();
     const [tickets, setTickets] = useState<Ticket[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
 
     useEffect(() => {
+        if (isLoading) {
+            return;
+        }
+
         if (!isAuthenticated || user?.role !== 'client') {
             router.push('/login');
             return;
         }
 
         loadTickets();
-    }, [isAuthenticated, user, router]);
+    }, [isAuthenticated, isLoading, user, router]);
 
     const loadTickets = async () => {
         try {
@@ -41,7 +45,7 @@ export default function ClientDashboard() {
         router.push('/login');
     };
 
-    if (loading) {
+    if (isLoading || loading) {
         return (
             <div className="min-h-screen flex items-center justify-center bg-background">
                 <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
