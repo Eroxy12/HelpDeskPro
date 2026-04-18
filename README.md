@@ -26,7 +26,7 @@ Create a `.env.local` file in the project root with the following variables:
 
 ```env
 # MongoDB Atlas Connection
-MONGODB_URI=mongodb+srv://Jhonican:<password>@cluster0.8pr4nmz.mongodb.net/helpdeskprow=majority
+MONGODB_URI=mongodb+srv://Jhonican:<password>@cluster0.8pr4nmz.mongodb.net/helpdeskpro
 
 # Email Configuration (Gmail)
 EMAIL_USER=your-email@gmail.com
